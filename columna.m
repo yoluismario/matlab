@@ -23,9 +23,9 @@ if nolin==0
     K=[k1+k2 -k2;-k2 k2];
     C=[(c1+c2)*l1 c2*l1*l2; c2*l1*l2 c2*l2^2];
     if seg==1
-    Kg=P*[-l1 l1;0 0];
+	    Kg=P*[-l1 l1;0 0];
     else
-    Kg=P*[l1 l1;l2 l2];    
+	    Kg=P*[l1 l1;l2 l2];    
     end
     
     [t,X]=ode45(@(t,X) columna_lin(t,X,M,C,K,Kg), [0 100],IC);

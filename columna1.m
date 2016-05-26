@@ -3,7 +3,7 @@
 
 nolin=0; %flag para activar el modelo no lineal
 seg=0; %flag para activar si la fuerza es seguidora
-graf=1; % flag para activar los graficos
+graf=0; % flag para activar los graficos
 
 
 n1=[1 0 0]; n2=[0 1 0]; n3=[0 0 1];%
@@ -46,7 +46,7 @@ end
 
 theta_1=X(:,1); theta_2=X(:,2); dot_theta_1=X(:,3); dot_theta_2=X(:,4);
 
-while graf==1		
+if graf==1		
 	figure('Name','theta 1','NumberTitle','off')
 	subplot(2,2,1)
 	plot(t, theta_1)
