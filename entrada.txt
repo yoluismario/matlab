@@ -1,5 +1,6 @@
 a = 0
-b = 5
-h = 2
-theta = 30
-nel = 10
+b = 4
+h = 0
+theta = 10
+nel = 4
+vel = 1
