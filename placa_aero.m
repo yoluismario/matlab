@@ -1,10 +1,10 @@
 % function time_all = placa_aero()
-% versión con la normal calculada
+% versión de placa plana con la normal calculada
 tic
 clear;close all;
-graf =0;% si es 0 no grafica
-ndt = 1;%numero de pasos de tiempo
-% Placa plana con las normales
+graf =1;% si es 0 no grafica
+ndt = 4;%numero de pasos de tiempo
+cutoff=1e-6;
 % tenemos que leer un archivo con los datos de entrada
 %% definiciones de entrada
     DAT = importdata('entrada.txt');
@@ -15,13 +15,11 @@ ndt = 1;%numero de pasos de tiempo
     theta = DAT.data(4);
     h = DAT.data(3);
     vel = DAT.data(6);
-    tf = 1;
-    dt =tf/ndt;
+    alfa = DAT.data(7);
+    tf = ndt;% tomamos el tiempo como unitario
 %% FUNCIONES DE TRANSFORMACION
-% deg2rad=@(x)x/180/pi;
- rad2deg=@(x)x*180/pi;
- thetaR = -deg2rad(theta); % en grados
-
+alfaR = deg2rad(alfa);
+thetaR = -deg2rad(theta); % en grados
 % chequear que a no sea mayor que 2b
 	dosB = 2*b; dosA = 2*a;
 if dosA>b
@@ -29,7 +27,7 @@ if dosA>b
     return
 end
 
-
+%% ORIGEN DE COORDENADAS
 % definimos un centro de coordenadas origen ceroN
 ceroN = zeros(1,3);
 ceroB = ceroN;
@@ -54,8 +52,8 @@ ceroN = ceroB + B;
 lel = dosB/nel;%longitud elemento
 % generacion de elementos
 nnp = nel+1; % numero de nodal points
-nvp = nnp; % numero de vortex points
-ncp = nnp; % numero de control points
+nvp = nel; % numero de vortex points
+ncp = nel; % numero de control points
 % iniciar las matrices
 rnpB =zeros(3,nnp);
 rvpB =zeros(3,nnp);
@@ -64,7 +62,7 @@ rcpB =zeros(3,nnp);
 
 % definir en B
 rnpB(:,1)=baB';
-for i=1:nel
+for i=0:nel
     rnpB(1,i+1) = lel*i-ba;
 	rvpB(1,i+1) = rnpB(1,i+1)-lel*.75;
 	rcpB(1,i+1) = rnpB(1,i+1)-lel*.25;
@@ -82,7 +80,7 @@ RvpN(2,:) = rvpN(2,:)+h;
 NormN(2,:) = normN(2,:)+h;
 
 cnormB = normB-rcpB;
-cnormN = normN-rcpN;% componenetes de la normal en N
+cnormN = normN-rcpN;% componentes de la normal en N
 
 switch graf
     case 1
@@ -106,9 +104,17 @@ switch graf
         disp('no grafica')
 end
 
+%% VELOCIDADES
+% definimos las velocidades a emplear: velocidad del cuerpo, velocidad en
+% el infinito, velocidad de la estela y velocidad inducida por los vortices
+% adheridos a la placa
+v_solid =[0 0 0];
+v_wake =[0 0 0];
+v_inf = vel*[cos(alfaR) sin(alfaR) 0]; 
+VelN = v_wake+v_inf-v_solid;
 
 %% calcular la vorticidad
-VelN = [vel 0 0];
+
 % resolver el problema A*G=b
 A = rand(nel); 
 A_amp =sumarCol(A);
@@ -122,9 +128,14 @@ G = RHS\A_amp;
 % G = inv(A_amp)*RHS; % NO RECOMENDADO!!!!!
 G_new = zeros(nel+1);
 G_old =G;
-GB= zeros(nel+1,ndt); GW = zeros(ndt)
+GB= zeros(nel+1,ndt); GW = zeros(ndt);
 
-for t=0:dt:tf    
+
+
+
+
+
+for t=0:tf    
 %% convectar la estela
 
 GB = G_old; 
