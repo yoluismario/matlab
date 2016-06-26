@@ -1,8 +1,8 @@
 % function time_all = placa_aero()
 % versión de placa plana con la normal calculada
 tic
-clear;close all;
-graf =1;% si es 0 no grafica
+clear;%close all;
+graf =0;% si es 0 no grafica
 ndt = 4;%numero de pasos de tiempo
 cutoff=1e-6;
 % tenemos que leer un archivo con los datos de entrada
@@ -56,18 +56,18 @@ nvp = nel; % numero de vortex points
 ncp = nel; % numero de control points
 % iniciar las matrices
 rnpB =zeros(3,nnp);
-rvpB =zeros(3,nnp);
-rcpB =zeros(3,nnp);
+rvpB =zeros(3,nvp);
+rcpB =zeros(3,ncp);
 % normB =zeros (3,nnp);
 
 % definir en B
 rnpB(:,1)=baB';
-for i=0:nel
+for i=1:nel
     rnpB(1,i+1) = lel*i-ba;
-	rvpB(1,i+1) = rnpB(1,i+1)-lel*.75;
-	rcpB(1,i+1) = rnpB(1,i+1)-lel*.25;
+	rvpB(1,i) = rnpB(1,i+1)-lel*.75;
+	rcpB(1,i) = rnpB(1,i+1)-lel*.25;
 end
-normB = rcpB+kron([0; 1; 0],ones(1,nnp)); %normales
+normB = rcpB+kron([0; 1; 0],ones(1,ncp)); %normales
 %% tranformar a N
 rnpN = CNB *rnpB;
 rvpN = CNB *rvpB;
@@ -89,7 +89,7 @@ switch graf
 	 graficar = [ceroN;ceroB;baN';bfN'];
 	 plot(graficar(:,1),graficar(:,2),'*')
 	 grid on
-	 hold on
+ 	 hold on
 	 %plot(rnpB(1,:),rnpB(2,:),'bs') plot(rvpB(1,:),rvpB(2,:),'bo')
 	 %plot(rcpB(1,:),rcpB(2,:),'b*')
 	 % en sistema N
@@ -99,7 +99,7 @@ switch graf
      quiver(rcpN(1,:),rcpN(2,:),cnormN(1,:),cnormN(2,:),.5)
      plot(B(1),B(2),'ys')
 	 legend('puntos claves','nodos','vortices','control','Punto B')
-	 hold off
+% 	 hold off
     otherwise 
         disp('no grafica')
 end
@@ -114,6 +114,8 @@ v_inf = vel*[cos(alfaR) sin(alfaR) 0];
 VelN = v_wake+v_inf-v_solid;
 
 %% calcular la vorticidad
+
+
 
 % resolver el problema A*G=b
 A = rand(nel); 
@@ -135,10 +137,10 @@ GB= zeros(nel+1,ndt); GW = zeros(ndt);
 
 
 
-for t=0:tf    
+for t=0:ndt    
 %% convectar la estela
-
-GB = G_old; 
+% xpos_v= vN * ndt
+% GB = G_old; 
 
 
 
