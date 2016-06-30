@@ -1,7 +1,7 @@
 a = 0
 b = 2
-h = 0
-theta = 0
+h = 1
+theta = 30
 nel = 4
 vel = 1
 alfa = 0

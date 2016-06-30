@@ -1,7 +1,7 @@
 % function time_all = placa_aero()
 % versión de placa plana con la normal calculada
 tic
-clear;%close all;
+clear;close all;
 graf =0;% si es 0 no grafica
 ndt = 4;%numero de pasos de tiempo
 cutoff=1e-6;
@@ -29,19 +29,16 @@ end
 
 %% ORIGEN DE COORDENADAS
 % definimos un centro de coordenadas origen ceroN
-ceroN = zeros(1,3);
-ceroB = ceroN;
+ceroN = zeros(1,3); ceroB = ceroN;
 B = [0 h 0];
 % versores en el origen B
-nb1 = [1 0 0];
-nb2 = [0 1 0];
+nb1 = [1 0 0]; nb2 = [0 1 0];
 
 % matrices de rotacion
 CBN = [cos(thetaR) sin(thetaR) 0;-sin(thetaR) cos(thetaR) 0; 0 0 1];
 CNB = CBN';
 
-ba = (1+a)*b;
-bf = dosB-ba;
+ba = (1+a)*b; bf = dosB-ba;
 baB = -ba*nb1; % borde de ataque en B
 bfB = bf*nb1; % borde de fuga en B
 baN = CNB * baB' + B';
@@ -114,27 +111,42 @@ v_inf = vel*[cos(alfaR) sin(alfaR) 0];
 VelN = v_wake+v_inf-v_solid;
 
 %% calcular la vorticidad
+for i=1:nel % por los puntos de control
+    for j=1:nel %recorre los vortices
+        %     x0=rvpB(1,i);y0=rvpB(2,i);
+         v1=rcpB(:,i);
+%         xp=rcpB(1,j);yp=rcpB(2,j);
+%         A(i,j)=biotSavart(x0,y0,xp,yp,cutoff);
+         v2=rvpB(:,j);
+         A(i,j)=[0,1]*biotSavart(v1,v2,cutoff);
+    end
+end
+% for i=1:nel %recorre los puntos de control
+%     for j=1:nel %calcula la influencia de cada vÃ³rtice concentrado
+%     A(i,j)=normalsB(:,i)'*Biot_savart(rcpB(1, i), rcpB(2, i),rvpB(1, j), rvpB(2, j), 1, coff);
+%     end
+%     A(i,nel+1)=normalsB(:,i)'*Biot_savart(rcpB(1, i), rcpB(2, i),rvpB(1, j)+long_el/4, rvpB(2, j), 1, coff);
+% end
+A(nel+1,:)=1;
 
+%% resolver el problema A*G=b
+% A = rand(nel); 
 
-
-% resolver el problema A*G=b
-A = rand(nel); 
 A_amp =sumarCol(A);
 % G = zeros(nel+1,1);G(end,1)=1;
 [LA,UA]=lu(A);
 
 
-
-RHS = vectRHS(VelN,normN);% funcion
-G = RHS\A_amp;
-% G = inv(A_amp)*RHS; % NO RECOMENDADO!!!!!
-G_new = zeros(nel+1);
-G_old =G;
-GB= zeros(nel+1,ndt); GW = zeros(ndt);
-
-
-
-
+% 
+RHS=ones(nel+1,1);
+G=RHS\A;
+% RHS = vectRHS(VelN,normN);% funcion
+% G = RHS\A_amp;
+% % G = inv(A_amp)*RHS; % NO RECOMENDADO!!!!!
+% G_new = zeros(nel+1);
+% G_old =G;
+% GB= zeros(nel+1,ndt); GW = zeros(ndt);
+ 
 
 
 for t=0:ndt    
@@ -150,7 +162,6 @@ end
 time_all = toc;
 disp(time_all)
 
-%% CORREGIR rnpB(1) = primer nodo
 
 %function vB = CBN(vN,theta)
 %rad = deg*pi/180;
