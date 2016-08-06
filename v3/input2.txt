@@ -1,0 +1,22 @@
+b=  0.5
+a=  0
+h=  1
+theta= 10
+nel= 1
+din=  0
+
+Amplitud1=   0  
+Amplitude2=  0
+Omeg1=   0     
+Omega2=    0
+
+Ph1=   0
+Phi2=   0
+
+nsteps= 6
+
+t_i= 0
+t_f= 1
+V_inf= 1
+alpha=  0
+

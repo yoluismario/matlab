@@ -1,0 +1,11 @@
+b=  5 
+a=  1. 
+h=  10
+ theta= 0 
+nel= 10
+din=1
+Amplitude_1= 2.  Amplitude_2= 30
+Omega_1= 0.5      Omega_2=  0.25
+Phi_1= 0
+Phi_2=  0
+

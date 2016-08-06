@@ -105,8 +105,7 @@ end
 % definimos las velocidades a emplear: velocidad del cuerpo, velocidad en
 % el infinito, velocidad de la estela y velocidad inducida por los vortices
 % adheridos a la placa
-v_solid =[0 0 0];
-v_wake =[0 0 0];
+v_solid =[0 0 0]; v_wake =[0 0 0];
 v_inf = vel*[cos(alfaR) sin(alfaR) 0]; 
 VelN = v_wake+v_inf-v_solid;
 
@@ -127,11 +126,10 @@ end
 %     end
 %     A(i,nel+1)=normalsB(:,i)'*Biot_savart(rcpB(1, i), rcpB(2, i),rvpB(1, j)+long_el/4, rvpB(2, j), 1, coff);
 % end
-A(nel+1,:)=1;
-
+A(nel+1,:)=1; G = ones(nel+1,1);
 %% resolver el problema A*G=b
 % A = rand(nel); 
-
+G=resolver(A);
 A_amp =sumarCol(A);
 % G = zeros(nel+1,1);G(end,1)=1;
 [LA,UA]=lu(A);

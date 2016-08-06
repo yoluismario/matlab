@@ -1,0 +1,19 @@
+b=  4 
+a=  0 
+h=  0
+theta= 0
+nel= 4
+din=  0
+
+nsteps= 100
+t_i= 0
+t_f= 20
+V_inf= 1
+alpha=  0
+
+Amplitud1=   2  
+Amplitude2=   30
+Omeg1=   0.5     
+Omega2=    0.25
+Ph1=   90
+Phi2=   0
