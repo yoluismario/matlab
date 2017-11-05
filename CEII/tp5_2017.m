@@ -3,7 +3,7 @@
 % respecto de la horizontal.
 % la matriz de rigidez, luego de aplicadas las restricciones solo queda el
 % elemento 5,5.
-clf
+% clf
 P = 25000; E = 2.1e6; nu = 0.3;
 alfa = 22.5;
 
@@ -20,9 +20,11 @@ for i=1:n_elem
     coord = [nod_coord(idx(1),:);nod_coord(idx(2),:);nod_coord(idx(3),:)];
     kij= f_mat_k_elemental(coord,E,nu);
     K_55 = K_55 +kij;
-    patch(coord(:,1),coord(:,2),i);
+%     patch(coord(:,1),coord(:,2),i);
 end
-u = K_55\F
+%%%%%%%%% la matriz de rigidez les da exactamente el doble ???? %%%%
+K_55 = K_55
+u = inv(K_55)*F
 % deformaciones 
 eps = zeros(n_elem,3);
 for i=1:n_elem
@@ -30,14 +32,14 @@ for i=1:n_elem
     coord = [nod_coord(idx(1),:);nod_coord(idx(2),:);nod_coord(idx(3),:)];
     eps(i,:)= f_eps_elemento(coord,E,nu,u);
     tensiones(i,:) = f_tensiones_elemento(eps(i,:),E,nu); 
-    patch(coord(:,1),coord(:,2),tensiones(i,4));
+%     patch(coord(:,1),coord(:,2),tensiones(i,4));
 end
-colorbar; xlabel('x_1');ylabel('x_2');title('tensiones de Von Mises');
+% colorbar; xlabel('x_1');ylabel('x_2');title('tensiones de Von Mises');
 
 % flecha
-x = [0.5 0.7];  y = [0.5 (0.5*(1-sind(alfa)))];
-a = annotation('textarrow',x,y,'String','P');
-a.Color ='red';
-disp('tensiones')
+% x = [0.5 0.7];  y = [0.5 (0.5*(1-sind(alfa)))];
+% a = annotation('textarrow',x,y,'String','P');
+% a.Color ='red';
+fprintf('Tensiones, ordenadas por elemento,\n [tens(1) tens(2) tens(3) S_vm]\n')
 disp(tensiones)
 % print('tensiones','-dpng')
