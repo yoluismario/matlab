@@ -6,7 +6,7 @@ P1 = P; P2 = 2*P; P3 = 3/2*P;
     fprintf(formatSpec,P1,P2,P3)
 pext = [P2 -P1 0];
 pint = [0 0 P3];
-vec1 = [160 9.5 -80];
+vec1 = [160 95 -80];
 vec2 = [160 0 0];
 
 N = P2;
