@@ -2,7 +2,7 @@
 % entran como argumentos los valores de las coordenadas en forma ordenada,
 % el módulo de elasticidad y de poisson.
 
-function kij = f_mat_k_elemental(coord,E,nu,h)
+function kij = f_mat_k_elemental_jj(coord,E,nu,h)
 h =1;
 ai1 = coord(3,1)-coord(2,1);
 ai2 = coord(3,2)-coord(2,2);

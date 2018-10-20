@@ -61,6 +61,8 @@ r = (m/2/pi/V)*(pi - th)./sin(th);
 xb = r.*cos(th);
 yb = r.*sin(th);
 plot(xb,yb,'om')
+grid on
+
 %
 % Exact location of minimum pressure
 thm = 0;
