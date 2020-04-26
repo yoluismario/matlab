@@ -4,7 +4,7 @@ close all
 
 %% Parametros de la ecuacion de Blasius
 U_inf = 20;
-L = 10;
+L = 0.3;
 mu = 1.789E-5;
 rho = 1.225;
 nu = mu/rho;
@@ -99,7 +99,7 @@ for i = 1 : length(position)
     tau_d = mu*U_inf^2/2/nu/position(i)*y4; %shear derivative partial(tau)/partial(y) at the wall y=0
     plot(eta, tau_d, 'LineWidth', 2)
 end
-title(' shear stress derivative as function of \eta ', 'FontSize', 14);
+title(' tensiones de corte derivadas como una función de \eta ', 'FontSize', 14);
 xlabel('\eta', 'FontSize', 20);
 ylabel('\tau''', 'FontSize', 20);
 axis tight
@@ -172,7 +172,7 @@ grid on
 %title('BL thickness and velocity profile of the flow', 'FontSize', 14);
 title('Espesor de CL y perfil de velocidad del flujo', 'FontSize', 14);
 xlabel('x', 'FontSize', 20);
-ylabel('Longitudinal velocity u', 'FontSize', 15);
+ylabel('Velocidad Longituinal u', 'FontSize', 15);
 zlabel('\delta(x)', 'FontSize', 20);
 view([-146 11]) 
 ylim([0 3])
