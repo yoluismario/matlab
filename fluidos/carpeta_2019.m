@@ -141,7 +141,10 @@ Re_x = rho*Ue*x/mu
 delta_x = 5 * x/sqrt(Re_x)
 % caudal 
 
+% problema 11.2
 
+%% problema flujo externo
+% 
 
 
 

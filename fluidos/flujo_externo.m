@@ -67,7 +67,7 @@ disp('----------Problema 57---------------')
 mu_g = 1; rho_g = 1260; d = 0.005; rho_acero = 7830;Re=1;
 %Vc = mu_g/(rho_g*d)
 %% problema 58
-disp('----------Problema 58---------------')
+disp('----------Problema 12.7---------------')
 V = 20; rho_aire = 1.225; a = 0.5;
 mu_aire = 1.78E-5;
 CD_transversal = 1.1+0.02*(a/a+a/a)
